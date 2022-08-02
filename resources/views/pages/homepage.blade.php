@@ -1,26 +1,28 @@
 @extends('layouts.app')
 
+@section('title', 'Главная страница')
+
 @section('content')
 
 <main class="flex-1 container mx-auto bg-white">
         <section class="bg-white">
             <div data-slick-carousel>
                 <div class="relative banner">
-                    <div class="w-full h-full bg-black"><img class="w-full h-full object-cover object-center opacity-70" src="pictures/test_banner_1.jpg" alt="" title=""></div>
+                    <div class="w-full h-full bg-black"><img class="w-full h-full object-cover object-center opacity-70" src="/pictures/test_banner_1.jpg" alt="" title=""></div>
                     <div class="absolute top-0 left-0 w-full px-10 py-4 sm:px-20 sm:py-8 lg:px-40 lg:py-10">
                         <h1 class="text-gray-100 text-lg sm:text-2xl md:text-4xl xl:text-6xl leading-relaxed sm:leading-relaxed md:leading-relaxed xl:leading-relaxed font-bold uppercase">Купи Астон Мартин, получи секретное Задание</h1>
                         <h2 class="text-gray-200 italic text-xs sm:text-lg md:text-xl xl:text-3xl leading-relaxed sm:leading-relaxed md:leading-relaxed xl:leading-relaxed font-bold">Аподейктика индуктивно подчеркивает катарсис, однако Зигварт считал критерием истинности необходимость и&nbsp;общезначимость, для&nbsp;которых нет никакой опоры в&nbsp;объективном мире <a href="#" class="text-orange hover:opacity-75">подробнее</a></h2>
                     </div>
                 </div>
                 <div class="relative banner">
-                    <div class="w-full h-full bg-black"><img class="w-full h-full object-cover object-center opacity-70" src="pictures/test_banner_2.jpg" alt="" title=""></div>
+                    <div class="w-full h-full bg-black"><img class="w-full h-full object-cover object-center opacity-70" src="/pictures/test_banner_2.jpg" alt="" title=""></div>
                     <div class="absolute top-0 left-0 w-full px-10 py-4 sm:px-20 sm:py-8 lg:px-40 lg:py-10">
                         <h1 class="text-gray-100 text-lg sm:text-2xl md:text-4xl xl:text-6xl leading-relaxed sm:leading-relaxed md:leading-relaxed xl:leading-relaxed font-bold uppercase">Купи Роллс Ройс, получи Отчество к&nbsp;своему имени</h1>
                         <h2 class="text-gray-200 italic text-xs sm:text-lg md:text-xl xl:text-3xl leading-relaxed sm:leading-relaxed md:leading-relaxed xl:leading-relaxed font-bold">Аподейктика индуктивно подчеркивает катарсис, однако Зигварт считал критерием истинности необходимость и&nbsp;общезначимость, для&nbsp;которых нет никакой опоры в&nbsp;объективном мире <a href="#" class="text-orange hover:opacity-75">подробнее</a></h2>
                     </div>
                 </div>
                 <div class="relative banner">
-                    <div class="w-full h-full bg-black"><img class="w-full h-full object-cover object-center opacity-70" src="pictures/test_banner_3.jpg" alt="" title=""></div>
+                    <div class="w-full h-full bg-black"><img class="w-full h-full object-cover object-center opacity-70" src="/pictures/test_banner_3.jpg" alt="" title=""></div>
                     <div class="absolute top-0 left-0 w-full px-10 py-4 sm:px-20 sm:py-8 lg:px-40 lg:py-10">
                         <h1 class="text-gray-100 text-lg sm:text-2xl md:text-4xl xl:text-6xl leading-relaxed sm:leading-relaxed md:leading-relaxed xl:leading-relaxed font-bold uppercase">Купи Бентли, получи бейсболку</h1>
                         <h2 class="text-gray-200 italic text-xs sm:text-lg md:text-xl xl:text-3xl leading-relaxed sm:leading-relaxed md:leading-relaxed xl:leading-relaxed font-bold">Аподейктика индуктивно подчеркивает катарсис, однако Зигварт считал критерием истинности необходимость и&nbsp;общезначимость, для&nbsp;которых нет никакой опоры в&nbsp;объективном мире <a href="#" class="text-orange hover:opacity-75">подробнее</a></h2>
@@ -32,7 +34,7 @@
             <p class="inline-block text-3xl text-black font-bold mb-4">Модели недели</p>
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
                 <div class="bg-white w-full border border-gray-100 rounded overflow-hidden shadow-lg hover:shadow-2xl pt-4">
-                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="pictures/car_cerato.png" alt="Cerato"></a>
+                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="/pictures/car_cerato.png" alt="Cerato"></a>
                     <div class="px-6 py-4">
                         <div class="text-black font-bold text-xl mb-2"><a class="hover:text-orange" href="detail.html">Cerato</a></div>
                         <p class="text-grey-darker text-base">
@@ -41,7 +43,7 @@
                     </div>
                 </div>
                 <div class="bg-white w-full border border-gray-100 rounded overflow-hidden shadow-lg hover:shadow-2xl pt-4">
-                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="pictures/car_rio-x.png" alt="Rio X"></a>
+                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="/pictures/car_rio-x.png" alt="Rio X"></a>
                     <div class="px-6 py-4">
                         <div class="text-black font-bold text-xl mb-2"><a class="hover:text-orange" href="detail.html">Rio X</a></div>
                         <p class="text-grey-darker text-base">
@@ -50,7 +52,7 @@
                     </div>
                 </div>
                 <div class="bg-white w-full border border-gray-100 rounded overflow-hidden shadow-lg hover:shadow-2xl pt-4">
-                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="pictures/car_mohave_new.png" alt="Mohave"></a>
+                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="/pictures/car_mohave_new.png" alt="Mohave"></a>
                     <div class="px-6 py-4">
                         <div class="text-black font-bold text-xl mb-2"><a class="hover:text-orange" href="detail.html">Mohave</a></div>
                         <p class="text-grey-darker text-base">
@@ -59,7 +61,7 @@
                     </div>
                 </div>
                 <div class="bg-white w-full border border-gray-100 rounded overflow-hidden shadow-lg hover:shadow-2xl pt-4">
-                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="pictures/car_K5-half.png" alt="K5"></a>
+                    <a class="block w-full h-40" href="detail.html"><img class="w-full h-full hover:opacity-90 object-cover" src="/pictures/car_K5-half.png" alt="K5"></a>
                     <div class="px-6 py-4">
                         <div class="text-black font-bold text-xl mb-2"><a class="hover:text-orange" href="detail.html">K5</a></div>
                         <p class="text-grey-darker text-base">
@@ -77,7 +79,7 @@
             <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="w-full flex">
                     <div class="h-48 lg:h-auto w-32 sm:w-60 lg:w-32 xl:w-48 flex-none text-center overflow-hidden">
-                        <a class="block w-full h-full hover:opacity-75" href="article.html"><img src="pictures/car_ceed.png" class="bg-white bg-opacity-25 w-full h-full object-contain" alt=""></a>
+                        <a class="block w-full h-full hover:opacity-75" href="article.html"><img src="/pictures/car_ceed.png" class="bg-white bg-opacity-25 w-full h-full object-contain" alt=""></a>
                     </div>
                     <div class="px-4 flex flex-col justify-between leading-normal">
                         <div class="mb-8">
@@ -98,7 +100,7 @@
                 </div>
                 <div class="w-full flex">
                     <div class="h-48 lg:h-auto w-32 sm:w-60 lg:w-32 xl:w-48 flex-none text-center overflow-hidden">
-                        <a class="block w-full h-full hover:opacity-75" href="article.html"><img src="pictures/car_k900.png" class="bg-white bg-opacity-25 w-full h-full  object-contain" alt=""></a>
+                        <a class="block w-full h-full hover:opacity-75" href="article.html"><img src="/pictures/car_k900.png" class="bg-white bg-opacity-25 w-full h-full  object-contain" alt=""></a>
                     </div>
                     <div class="px-4 flex flex-col justify-between leading-normal">
                         <div class="mb-8">
@@ -121,7 +123,7 @@
                 </div>
                 <div class="w-full flex">
                     <div class="h-48 lg:h-auto w-32 sm:w-60 lg:w-32 xl:w-48 flex-none text-center overflow-hidden">
-                        <a class="block w-full h-full hover:opacity-75" href="article.html"><img src="pictures/car_soul.png" class="bg-white bg-opacity-25 w-full h-full  object-contain" alt=""></a>
+                        <a class="block w-full h-full hover:opacity-75" href="article.html"><img src="/pictures/car_soul.png" class="bg-white bg-opacity-25 w-full h-full  object-contain" alt=""></a>
                     </div>
                     <div class="px-4 flex flex-col justify-between leading-normal">
                         <div class="mb-8">
