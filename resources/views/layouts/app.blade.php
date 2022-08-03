@@ -15,7 +15,7 @@
     <x-panels.header/>
         @section('nav')
         @show
-    <main class="flex-1 container mx-auto bg-white flex">
+    
         @section('sidemenu')
         @show
 

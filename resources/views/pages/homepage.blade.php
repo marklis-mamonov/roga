@@ -71,7 +71,6 @@
                 </div>
             </div>
         </section>
-        <x-panels.news :articles="$articles"/> 
-    </main>
+        <x-panels.news :articles="$articles"/>
 
 @endsection
