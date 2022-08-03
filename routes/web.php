@@ -22,3 +22,4 @@ Route::get('/conditions', [PagesController::class, 'conditions'])->name('conditi
 Route::get('/finance_department', [PagesController::class, 'finance_department'])->name('finance_department');
 Route::get('/for_clients', [PagesController::class, 'for_clients'])->name('for_clients');
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles');
+Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');

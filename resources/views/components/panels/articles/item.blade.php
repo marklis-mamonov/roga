@@ -7,10 +7,10 @@
     <div class="px-4 leading-normal">
         <div class="mb-8 space-y-2">
             <div class="text-black font-bold text-xl">
-                <a class="hover:text-orange" href="article.html">{{ $article->title }}</a>
+                <a class="hover:text-orange" href="{{ route('articles.show', $article) }}">{{ $article->title }}</a>
             </div>
             <p class="text-gray-600 text-base">
-                <a class="hover:text-orange" href="article.html">{{ $article->description }}</a>
+                <a class="hover:text-orange" href="{{ route('articles.show', $article) }}">{{ $article->description }}</a>
             </p>
             <div>
                 <span class="text-sm text-white italic rounded bg-orange px-2">Это</span>
