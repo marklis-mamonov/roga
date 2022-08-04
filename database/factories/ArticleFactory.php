@@ -22,10 +22,12 @@ class ArticleFactory extends Factory
         $slug = Str::slug($title);
         $description = $this->faker->text(255);
         $body = $this->faker->text();
+        $published_at = (rand(0, 1)) ? Carbon::now()->year . '-' . Carbon::now()->month . '-' . rand(1, 31) : null;
         return [
             'slug'         => $slug,
             'title'        => $title,
             'description'  => $description,
+            'published_at' => $published_at,
             'body'         => $body
         ];
     }

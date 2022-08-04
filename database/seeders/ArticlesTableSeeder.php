@@ -17,23 +17,9 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        $articles = Article::factory()
-                ->count(10)
-                ->state(new Sequence(
-                    ['published_at' => null],
-                    ['published_at' => Carbon::now()->year . '-' . Carbon::now()->month . '-' . rand(1, 31)],
-                    ['published_at' => null],
-                    ['published_at' => Carbon::now()->year . '-' . Carbon::now()->month . '-' . rand(1, 31)],
-                    ['published_at' => null],
-                    ['published_at' => Carbon::now()->year . '-' . Carbon::now()->month . '-' . rand(1, 31)],
-                    ['published_at' => null],
-                    ['published_at' => Carbon::now()->year . '-' . Carbon::now()->month . '-' . rand(1, 31)],
-                    ['published_at' => null],
-                    ['published_at' => Carbon::now()->year . '-' . Carbon::now()->month . '-' . rand(1, 31)],
-                ))
-                ->create();
-        /*
-        $publishedArticleCount = 0;
+        $articles = Article::factory()->count(10)->create();
+        
+        $publishedArticleCount = Article::get()->whereNotNull('published_at')->count();
         while ($publishedArticleCount<5) {
             $article = \App\Models\Article::factory(1)->create();
             if ($article[0]['published_at'] != null)
@@ -41,7 +27,6 @@ class ArticlesTableSeeder extends Seeder
                 $publishedArticleCount += 1;
             }
         }
-        */
 
     }
 }
