@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
-use App\Http\Requests\StoreArticleRequest;
+use App\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
@@ -28,24 +27,20 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('pages.articles.create');
+        return view('pages.articles.create', ['article' => new Article()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\StoreArticleRequest  $request
+     * @param  \Illuminate\Http\ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreArticleRequest $request)
+    public function store(ArticleRequest $request)
     {
         $validated = $request->validated();
 
-        if ($request->is_published) {
-            $published_at = Carbon::today()->toDateString();
-        } else {
-            $published_at = null;
-        }
+        $published_at = $request->getPublishedAt($request->is_published);
 
         Article::create([
             'slug' => Str::slug($request->title),
@@ -72,34 +67,48 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view('pages.articles.edit', compact('article'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\ArticleRequest  $request
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(ArticleRequest $request, Article $article)
+    {        
+        $validated = $request->validated();
+
+        $published_at = $request->getPublishedAt($request->is_published);
+        
+        $article->update([
+            'slug' => Str::slug($request->title),
+            'title' => $request->title,
+            'description' => $request->description,
+            'body' => $request->body,
+            'published_at' => $published_at
+        ]);
+        
+        return redirect(route('articles.edit', $article))->with('message', 'Успешно');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $article->delete();
+
+        return redirect(route('articles.index'))->with('message', 'Успешно');
     }
 }

@@ -7,6 +7,14 @@
     <h1 class="text-black text-3xl font-bold mb-4">Новости</h1>
         <div class="space-y-4">
 
+            @if (Session::get('message') == "Успешно")
+                <x-messages.success message="Новость успешно удалена"/>
+            @endif
+
+            <a href="{{ route('articles.create') }}">
+                <x-buttons.orange value="Добавить новость"/>
+            </a>
+
     @foreach ($articles as $article)
     <x-panels.articles.item :article="$article"/>
 
