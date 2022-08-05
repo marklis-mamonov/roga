@@ -7,8 +7,8 @@
     <h1 class="text-black text-3xl font-bold mb-4">Новости</h1>
         <div class="space-y-4">
 
-            @if (Session::get('message') == "Успешно")
-                <x-messages.success message="Новость успешно удалена"/>
+            @if (session('message'))
+                <x-messages.success :message="Session::get('message')"/>
             @endif
 
             <a href="{{ route('articles.create') }}">

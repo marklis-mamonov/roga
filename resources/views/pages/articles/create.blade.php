@@ -8,8 +8,8 @@
         <h1 class="text-black text-3xl font-bold mb-4">Создать новость</h1>
         @if($errors->count())
             <x-messages.error message="Ошибка валидации"/>
-        @elseif (Session::get('message') == "Успешно")
-            <x-messages.success message="Новость успешно добавлена"/>
+        @elseif (session('message'))
+            <x-messages.success :message="Session::get('message')"/>
         @endif
 
         <form method="POST" action="{{ route('articles.store') }}">

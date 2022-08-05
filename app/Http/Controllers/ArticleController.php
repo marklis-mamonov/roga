@@ -50,7 +50,7 @@ class ArticleController extends Controller
             'published_at' => $published_at
         ]);
         
-        return redirect(route('articles.create'))->with('message', 'Успешно');
+        return redirect(route('articles.create'))->with('message', 'Новость успешно добавлена');
     }
 
     /**
@@ -96,7 +96,7 @@ class ArticleController extends Controller
             'published_at' => $published_at
         ]);
         
-        return redirect(route('articles.edit', $article))->with('message', 'Успешно');
+        return redirect(route('articles.edit', $article))->with('message', 'Новость успешно изменена');
     }
 
     /**
@@ -109,6 +109,6 @@ class ArticleController extends Controller
     {
         $article->delete();
 
-        return redirect(route('articles.index'))->with('message', 'Успешно');
+        return redirect(route('articles.index'))->with('message', 'Новость успешно удалена');
     }
 }
