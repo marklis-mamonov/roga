@@ -4,13 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Car;
 
 class PagesController extends Controller
 {
     public function homepage()
     {
         $articles = Article::latest('published_at')->whereNotNull('published_at')->limit(3)->get();
-        return view('pages.homepage', compact('articles'));
+        $newCars = Car::get()->where('is_new', 1);
+        $newCarsArray = $newCars->all();
+        if (count($newCarsArray) > 4)
+        {
+            $weekCarsKeys = array_rand($newCarsArray, 4);
+            for ($i = 0; $i < 4; $i++) {
+                $weekCarsArray[] = $newCarsArray[$weekCarsKeys[$i]];
+            }
+            $weekCars = collect($weekCarsArray);
+        } else {
+            $weekCars = $newCars;
+        }
+        return view('pages.homepage', compact('articles', 'weekCars'));
     }
 
     public function about_us()

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,8 @@ Route::get('/conditions', [PagesController::class, 'conditions'])->name('conditi
 Route::get('/finance_department', [PagesController::class, 'finance_department'])->name('finance_department');
 Route::get('/for_clients', [PagesController::class, 'for_clients'])->name('for_clients');
 
+Route::get('/catalog', [CarController::class, 'index'])->name('cars.index');
+Route::get('/products/{car}', [CarController::class, 'show'])->name('cars.show');
+
 Route::resource('articles', ArticleController::class);
+
