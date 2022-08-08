@@ -15,7 +15,7 @@ class CarClassesTableSeeder extends Seeder
      */
     public function run()
     {
-        $carClassNames = ['Бизнес-класс и представительский класс', 'Cемейный класс', 'Гольф-класс', 'Компактный класс'];
+        $carClassNames = ['Бизнес-класс и представительский класс', 'Семейный класс', 'Гольф-класс', 'Компактный класс'];
         for ($i = 0; $i < count($carClassNames); $i++) {
             $carClass = CarClass::factory()->state([
                 'name' => $carClassNames[$i],

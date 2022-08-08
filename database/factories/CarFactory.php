@@ -22,7 +22,7 @@ class CarFactory extends Factory
         $name = ucfirst($this->faker->unique()->words(rand(1, 3), true));
         $body = $this->faker->text(200);
         $price = $this->faker->numberBetween(100000, 5000000);
-        $old_price = $price + $price * rand(2, 20) / 100;
+        $old_price = (rand(0, 1)) ? $price + $price * rand(2, 20) / 100 : null;
         $salon = $this->faker->text(200);
         $kpp = $this->faker->text(200);
         $year = $this->faker->numberBetween(2020, 2022);

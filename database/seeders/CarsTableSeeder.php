@@ -20,7 +20,7 @@ class CarsTableSeeder extends Seeder
     {
         $salon = ['Черный, Натуральная кожа (WK)', 'Белый, Натуральная кожа (WK)', 'Коричневый, Натуральная кожа (WK)'];
         $carClasses = CarClass::get();
-        $kpp = ['Автомат, 6 AT', 'Автомат, 6 AМT', 'Механика, MMT6'];
+        $kpp = ['Автомат, 6 AT', 'Автомат, 6 AМT', 'Механика, MMT4'];
         $color = ['Чёрный', 'Белый', 'Красный', 'Синий', 'Зелёный'];
         $carBodies = CarBody::get();
         $carBodies->push(null);
