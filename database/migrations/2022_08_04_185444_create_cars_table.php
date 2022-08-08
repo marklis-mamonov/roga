@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('body');
             $table->integer('price');
             $table->integer('old_price')->nullable();
-            $table->text('salon')->nullable();
+            $table->string('salon')->nullable();
             $table->unsignedBigInteger('car_class_id')->nullable();
             $table->foreign('car_class_id')->references('id')->on('car_classes');
             $table->string('kpp')->nullable();
