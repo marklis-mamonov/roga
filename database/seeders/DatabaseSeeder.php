@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CarClassesTableSeeder::class);
         $this->call(CarEnginesTableSeeder::class);
         $this->call(CarsTableSeeder::class);
+        $this->call(TagsTableSeeder::class);
+        $this->call(TaggablesTableSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

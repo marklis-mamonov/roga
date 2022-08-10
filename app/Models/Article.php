@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Interfaces\HasTags;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-class Article extends Model
+class Article extends Model implements HasTags
 {
     use HasFactory;
     
@@ -15,4 +17,9 @@ class Article extends Model
     }
 
     protected $guarded = [];
+
+    public function tags(): MorphToMany
+    {
+        return $this->morphToMany('App\Models\Tag', 'taggable', 'taggables');
+    }
 }

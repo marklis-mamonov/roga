@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use Illuminate\Support\Str;
 use App\Http\Requests\ArticleRequest;
+use App\Http\Requests\TagsRequest;
 
 class ArticleController extends Controller
 {
@@ -27,7 +28,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('pages.articles.create', ['article' => new Article()]);
+        $tags = "";
+        return view('pages.articles.create', ['article' => new Article(), 'tags' => $tags]);
     }
 
     /**
@@ -36,20 +38,23 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ArticleRequest $request)
+    public function store(ArticleRequest $request, TagsRequest $tagsRequest)
     {
         $validated = $request->validated();
 
         $published_at = $request->getPublishedAt($request->is_published);
 
-        Article::create([
+        $article = Article::create([
             'slug' => Str::slug($request->title),
             'title' => $request->title,
             'description' => $request->description,
             'body' => $request->body,
             'published_at' => $published_at
         ]);
-        
+        $tags = $tagsRequest->tagsCollection($request->tags);
+        $tagsSynchroniser = app('TagsSynchroniser');
+        $tagsSynchroniser->sync($tags, $article);
+
         return redirect(route('articles.create'))->with('message', 'Новость успешно добавлена');
     }
 
@@ -72,7 +77,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('pages.articles.edit', compact('article'));
+        $tags = implode(", ", $article->tags->pluck('name')->toArray());
+        return view('pages.articles.edit', compact('article', 'tags'));
     }
 
     /**
@@ -82,7 +88,7 @@ class ArticleController extends Controller
      * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(ArticleRequest $request, TagsRequest $tagsRequest, Article $article)
     {        
         $validated = $request->validated();
 
@@ -96,6 +102,10 @@ class ArticleController extends Controller
             'published_at' => $published_at
         ]);
         
+        $tags = $tagsRequest->tagsCollection($request->tags);
+        $tagsSynchroniser = app('TagsSynchroniser');
+        $tagsSynchroniser->sync($tags, $article);
+
         return redirect(route('articles.edit', $article))->with('message', 'Новость успешно изменена');
     }
 

@@ -16,6 +16,11 @@
             </x-input.group>
         </div>
         <div class="block">
+            <x-input.group for="tags" title="Тэги" :errors="$errors">
+                <x-input.text name="tags" placeholder="Введите тэги" :value="old('tags', $tags)" :errorExists="$errors->has('tags')"/>
+            </x-input.group>
+        </div>
+        <div class="block">
             <x-input.checkbox name="is_published" title="Опубликовать новость"/>
         </div>
         <div class="block">
