@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Repositories\Contracts;
+
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Article;
+
+Interface ArticlesRepositoryContract
+{
+    public function getAllPublished(): Collection;
+
+    public function getAllPublishedWithPaginate(): LengthAwarePaginator;
+
+    public function create($data): Article;
+
+    public function update($article, $data): bool;
+    
+    public function delete($article): bool;
+
+    public function getNewArticles(): Collection;
+}

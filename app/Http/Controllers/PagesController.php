@@ -6,13 +6,25 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Car;
 use Illuminate\Support\Str;
+use App\Repositories\Contracts\ArticlesRepositoryContract;
+use App\Repositories\Contracts\CarsRepositoryContract;
 
 class PagesController extends Controller
 {
+
+    protected $articlesRepository;
+    protected $carsRepository;
+
+    public function __construct(ArticlesRepositoryContract $articlesRepository, CarsRepositoryContract $carsRepository)
+    {
+        $this->articlesRepository = $articlesRepository;
+        $this->carsRepository = $carsRepository;
+    }
+
     public function homepage()
     {
-        $articles = Article::latest('published_at')->whereNotNull('published_at')->limit(3)->get();
-        $weekCars = Car::inRandomOrder()->limit(4)->get();
+        $articles = $this->articlesRepository->getNewArticles();
+        $weekCars = $this->carsRepository->getWeekCars();
         return view('pages.homepage', compact('articles', 'weekCars'));
     }
 
@@ -38,7 +50,7 @@ class PagesController extends Controller
 
     public function for_clients()
     {
-        $cars = Car::with('CarBody','CarClass','CarEngine')->get();
+        $cars = $this->carsRepository->getCarsWithRelations();
         $carPriceAvg = $cars->pluck('price')->avg();
         $carPriceDiscountAvg = $cars->whereNotNull('old_price')->pluck('price')->avg();
         $carMaxPriceValue = $cars->max('price');

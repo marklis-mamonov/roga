@@ -8,17 +8,19 @@ use Illuminate\Support\Str;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagsRequest;
 use App\Services\TagsSynchroniser;
+use App\Repositories\Contracts\ArticlesRepositoryContract;
 
 class ArticleController extends Controller
 {
 
     protected $tagsSynchroniser;
+    protected $articlesRepository;
 
-    public function __construct(TagsSynchroniser $tagsSynchroniser)
+    public function __construct(TagsSynchroniser $tagsSynchroniser, ArticlesRepositoryContract $articlesRepository)
     {
         $this->tagsSynchroniser = $tagsSynchroniser;
+        $this->articlesRepository = $articlesRepository;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +28,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::latest('published_at')->whereNotNull('published_at')->get();
+        $articles = $this->articlesRepository->getAllPublishedWithPaginate();
         return view('pages.articles.index', compact('articles'));
     }
 
@@ -53,15 +55,19 @@ class ArticleController extends Controller
 
         $published_at = $request->getPublishedAt($request->is_published);
 
-        $article = Article::create([
+        $data = [
             'slug' => Str::slug($request->title),
             'title' => $request->title,
             'description' => $request->description,
             'body' => $request->body,
             'published_at' => $published_at
-        ]);
-        $tags = $tagsRequest->tagsCollection($request->tags);
-        $this->tagsSynchroniser->sync($tags, $article);
+        ];
+
+        $article = $this->articlesRepository->create($data);
+        if ($request->tags) {
+            $tags = $tagsRequest->tagsCollection($request->tags);
+            $this->tagsSynchroniser->sync($tags, $article);
+        }
 
         return redirect(route('articles.create'))->with('message', 'Новость успешно добавлена');
     }
@@ -102,14 +108,15 @@ class ArticleController extends Controller
 
         $published_at = $request->getPublishedAt($request->is_published);
         
-        $article->update([
+        $data = [
             'slug' => Str::slug($request->title),
             'title' => $request->title,
             'description' => $request->description,
             'body' => $request->body,
             'published_at' => $published_at
-        ]);
+        ];
         
+        $this->articlesRepository->update($article, $data);
         $tags = $tagsRequest->tagsCollection($request->tags);
         $this->tagsSynchroniser->sync($tags, $article);
 
@@ -124,8 +131,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->delete();
-
+        $this->articlesRepository->delete($article);
         return redirect(route('articles.index'))->with('message', 'Новость успешно удалена');
     }
 }

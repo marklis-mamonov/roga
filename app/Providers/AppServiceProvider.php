@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Services\TagsSynchroniser;
@@ -28,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             'article' => 'App\Models\Article',
         ]);
+
+        Paginator::defaultView('pagination::custom');
     }
 }
