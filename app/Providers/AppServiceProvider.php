@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Services\Contracts\TagsSynchroniserContract;
 use App\Services\TagsSynchroniser;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(TagsSynchroniser::class, TagsSynchroniser::class);
+        $this->app->singleton(TagsSynchroniserContract::class, TagsSynchroniser::class);
     }
 
     /**

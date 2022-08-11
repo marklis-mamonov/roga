@@ -7,7 +7,7 @@ use App\Models\Article;
 use Illuminate\Support\Str;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagsRequest;
-use App\Services\TagsSynchroniser;
+use App\Services\Contracts\TagsSynchroniserContract;
 use App\Repositories\Contracts\ArticlesRepositoryContract;
 
 class ArticleController extends Controller
@@ -16,7 +16,7 @@ class ArticleController extends Controller
     protected $tagsSynchroniser;
     protected $articlesRepository;
 
-    public function __construct(TagsSynchroniser $tagsSynchroniser, ArticlesRepositoryContract $articlesRepository)
+    public function __construct(TagsSynchroniserContract $tagsSynchroniser, ArticlesRepositoryContract $articlesRepository)
     {
         $this->tagsSynchroniser = $tagsSynchroniser;
         $this->articlesRepository = $articlesRepository;
@@ -117,8 +117,10 @@ class ArticleController extends Controller
         ];
         
         $this->articlesRepository->update($article, $data);
-        $tags = $tagsRequest->tagsCollection($request->tags);
-        $this->tagsSynchroniser->sync($tags, $article);
+        if ($request->tags) {
+            $tags = $tagsRequest->tagsCollection($request->tags);
+            $this->tagsSynchroniser->sync($tags, $article);
+        }
 
         return redirect(route('articles.edit', $article))->with('message', 'Новость успешно изменена');
     }

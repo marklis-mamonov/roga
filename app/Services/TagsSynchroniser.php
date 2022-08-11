@@ -7,8 +7,9 @@ use App\Models\Interfaces\HasTags;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Repositories\Contracts\TagsRepositoryContract;
+use App\Services\Contracts\TagsSynchroniserContract;
 
-class TagsSynchroniser
+class TagsSynchroniser implements TagsSynchroniserContract
 {
 
     protected $tagsRepository;
