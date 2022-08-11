@@ -7,9 +7,18 @@ use App\Models\Article;
 use Illuminate\Support\Str;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagsRequest;
+use App\Services\TagsSynchroniser;
 
 class ArticleController extends Controller
 {
+
+    protected $tagsSynchroniser;
+
+    public function __construct(TagsSynchroniser $tagsSynchroniser)
+    {
+        $this->tagsSynchroniser = $tagsSynchroniser;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,8 +61,7 @@ class ArticleController extends Controller
             'published_at' => $published_at
         ]);
         $tags = $tagsRequest->tagsCollection($request->tags);
-        $tagsSynchroniser = app('TagsSynchroniser');
-        $tagsSynchroniser->sync($tags, $article);
+        $this->tagsSynchroniser->sync($tags, $article);
 
         return redirect(route('articles.create'))->with('message', 'Новость успешно добавлена');
     }
@@ -103,8 +111,7 @@ class ArticleController extends Controller
         ]);
         
         $tags = $tagsRequest->tagsCollection($request->tags);
-        $tagsSynchroniser = app('TagsSynchroniser');
-        $tagsSynchroniser->sync($tags, $article);
+        $this->tagsSynchroniser->sync($tags, $article);
 
         return redirect(route('articles.edit', $article))->with('message', 'Новость успешно изменена');
     }

@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('TagsSynchroniser', TagsSynchroniser::class);
+        $this->app->singleton(TagsSynchroniser::class, TagsSynchroniser::class);
     }
 
     /**

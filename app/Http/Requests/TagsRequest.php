@@ -31,8 +31,10 @@ class TagsRequest extends FormRequest
     public function tagsCollection(string $requestTags)
     {
         $tags = explode(",", $requestTags);
-        $tags = array_filter(array_map('trim', $tags));
         $tags = collect($tags);
+        $tags = $tags->map(function ($item, $key) {
+            return trim($item);
+        });
         return $tags;
     }
 }

@@ -13,11 +13,7 @@ class TagsSynchroniser
     {
         foreach ($tags as $tagName)
         {
-            if (Tag::where('name', $tagName)->exists()) {
-                $tag = Tag::get()->where('name', $tagName)->first();
-            } else {
-                $tag = Tag::create(['name' => $tagName]);
-            }
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
             if (! $model->tags->pluck('name')->contains($tagName)) {
                 $model->tags()->attach($tag);
             }
