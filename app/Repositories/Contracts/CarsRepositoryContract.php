@@ -11,6 +11,8 @@ Interface CarsRepositoryContract
     public function getAll(): Collection;
     
     public function getAllWithPaginate(): LengthAwarePaginator;
+    
+    public function getAllFromCategoryWithPaginate($category, $childrenCategories): LengthAwarePaginator;
 
     public function getWeekCars(): Collection;
 

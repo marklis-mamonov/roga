@@ -15,17 +15,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ArticlesTableSeeder::class);
+        $this->call(CategoriesTableSeeder::class);
         $this->call(CarBodiesTableSeeder::class);
         $this->call(CarClassesTableSeeder::class);
         $this->call(CarEnginesTableSeeder::class);
         $this->call(CarsTableSeeder::class);
         $this->call(TagsTableSeeder::class);
         $this->call(TaggablesTableSeeder::class);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

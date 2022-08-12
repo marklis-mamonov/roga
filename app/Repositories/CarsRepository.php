@@ -6,6 +6,7 @@ use App\Repositories\Contracts\CarsRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Car;
+use App\Models\Category;
 
 class CarsRepository implements CarsRepositoryContract
 {
@@ -24,6 +25,16 @@ class CarsRepository implements CarsRepositoryContract
     public function getAllWithPaginate(): LengthAwarePaginator
     {
         return $this->model::paginate(16);
+    }
+
+    public function getAllFromCategoryWithPaginate($category, $childrenCategories): LengthAwarePaginator
+    {
+        $categoriesId[] = $category->id;
+        foreach ($childrenCategories as $childrenCategory) {
+            $categoriesId[] = $childrenCategory->id;
+        }
+        $cars = $this->model::whereIn('category_id', $categoriesId)->paginate(16);
+        return $cars;
     }
 
     public function getWeekCars(): Collection

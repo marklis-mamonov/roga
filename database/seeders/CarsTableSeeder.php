@@ -8,6 +8,7 @@ use App\Models\Car;
 use App\Models\CarClass;
 use App\Models\CarBody;
 use App\Models\CarEngine;
+use App\Models\category;
 
 class CarsTableSeeder extends Seeder
 {
@@ -25,6 +26,7 @@ class CarsTableSeeder extends Seeder
         $carBodies = CarBody::get();
         $carBodies->push(null);
         $carEngines = CarEngine::get();
+        $categories = Category::get();
         for ($i = 0; $i < 20; $i++) {
             $car = Car::factory()->state([
                 'salon' => $salon[array_rand($salon)],
@@ -33,6 +35,7 @@ class CarsTableSeeder extends Seeder
                 'color' => $color[array_rand($color)],
                 'car_body_id' => $carBodies->random(),
                 'car_engine_id' => $carEngines->random(),
+                'category_id' => $categories->random(),
             ])->create();
         }
     }

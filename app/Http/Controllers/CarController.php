@@ -4,26 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Models\Category;
 use App\Repositories\Contracts\CarsRepositoryContract;
+use App\Repositories\Contracts\CategoriesRepositoryContract;
 
 class CarController extends Controller
 {
 
     private $carsRepository;
+    private $categoriesRepository;
 
-    public function __construct(CarsRepositoryContract $carsRepository)
+    public function __construct(CarsRepositoryContract $carsRepository, CategoriesRepositoryContract $categoriesRepository)
     {
         $this->carsRepository = $carsRepository;
+        $this->categoriesRepository = $categoriesRepository;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Category $category)
     {
-        $cars = $this->carsRepository->getAllWithPaginate();
-        return view('pages.cars.index', compact('cars'));
+        $childrenCategories = $this->categoriesRepository->getChildrenCategories($category->id);
+        $cars = $this->carsRepository->getAllFromCategoryWithPaginate($category, $childrenCategories);
+        return view('pages.cars.index', compact('cars', 'category'));
     }
 
     /**
