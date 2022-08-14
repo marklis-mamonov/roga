@@ -7,19 +7,19 @@ use App\Models\Article;
 use Illuminate\Support\Str;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagsRequest;
-use App\Services\Contracts\TagsSynchroniserContract;
+use App\Services\Contracts\ArticleServiceContract;
 use App\Repositories\Contracts\ArticlesRepositoryContract;
 
 class ArticleController extends Controller
 {
 
-    protected $tagsSynchroniser;
     protected $articlesRepository;
+    protected $articleService;
 
-    public function __construct(TagsSynchroniserContract $tagsSynchroniser, ArticlesRepositoryContract $articlesRepository)
+    public function __construct(ArticlesRepositoryContract $articlesRepository, ArticleServiceContract $articleService)
     {
-        $this->tagsSynchroniser = $tagsSynchroniser;
         $this->articlesRepository = $articlesRepository;
+        $this->articleService = $articleService;
     }
     /**
      * Display a listing of the resource.
@@ -52,23 +52,7 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request, TagsRequest $tagsRequest)
     {
         $validated = $request->validated();
-
-        $published_at = $request->getPublishedAt($request->is_published);
-
-        $data = [
-            'slug' => Str::slug($request->title),
-            'title' => $request->title,
-            'description' => $request->description,
-            'body' => $request->body,
-            'published_at' => $published_at
-        ];
-
-        $article = $this->articlesRepository->create($data);
-        if ($request->tags) {
-            $tags = $tagsRequest->tagsCollection($request->tags);
-            $this->tagsSynchroniser->sync($tags, $article);
-        }
-
+        $this->articleService->create($request, $tagsRequest);
         return redirect(route('articles.create'))->with('message', 'Новость успешно добавлена');
     }
 
@@ -105,23 +89,7 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request, TagsRequest $tagsRequest, Article $article)
     {        
         $validated = $request->validated();
-
-        $published_at = $request->getPublishedAt($request->is_published);
-        
-        $data = [
-            'slug' => Str::slug($request->title),
-            'title' => $request->title,
-            'description' => $request->description,
-            'body' => $request->body,
-            'published_at' => $published_at
-        ];
-        
-        $this->articlesRepository->update($article, $data);
-        if ($request->tags) {
-            $tags = $tagsRequest->tagsCollection($request->tags);
-            $this->tagsSynchroniser->sync($tags, $article);
-        }
-
+        $this->articleService->update($request, $tagsRequest, $article);
         return redirect(route('articles.edit', $article))->with('message', 'Новость успешно изменена');
     }
 

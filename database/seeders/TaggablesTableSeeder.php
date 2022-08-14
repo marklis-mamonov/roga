@@ -20,7 +20,7 @@ class TaggablesTableSeeder extends Seeder
         foreach ($tags as $tag) {
             $tag->articles()->attach(Article::inRandomOrder()->limit(3)->get());
         }
-        $articles = Article::inRandomOrder()->limit(3)->get();
+        $articles = Article::doesntHave('tags')->inRandomOrder()->limit(3)->get();
         foreach ($articles as $article) {
             $article->tags()->attach(Tag::inRandomOrder()->limit(3)->get());
         }

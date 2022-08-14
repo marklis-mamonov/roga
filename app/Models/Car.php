@@ -30,4 +30,14 @@ class Car extends Model
     {
         return $this->belongsTo(CarEngine::class);
     }
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
+
+    public function images()
+    {
+        return $this->belongsToMany(Image::class);
+    }
 }

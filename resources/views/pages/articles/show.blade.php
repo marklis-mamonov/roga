@@ -12,8 +12,9 @@
             </a>
         
         <div class="space-y-4">
-
-            <img src="/pictures/car_new_stinger.png" alt="" title="">
+        @if ($article->image)
+            <img src="{{ Storage::url($article->image->path) }}" alt="" title="">
+        @endif
 
             {!! $article->body !!}
 

@@ -1,7 +1,10 @@
 @props(['car'])
 
 <div class="bg-white w-full border border-gray-100 rounded overflow-hidden shadow-lg hover:shadow-2xl pt-4">
-    <a class="block w-full h-40" href="{{ route('cars.show', $car) }}"><img class="w-full h-full hover:opacity-90 object-cover" src="/pictures/car_cerato.png" alt="Cerato"></a>
+    <a class="block w-full h-40" href="{{ route('cars.show', $car) }}">
+    @if ($car->image)
+        <img class="w-full h-full hover:opacity-90 object-cover" src="{{ Storage::url($car->image->path) }}" alt="Cerato"></a>
+    @endif
     <div class="px-6 py-4">
         <div class="text-black font-bold text-xl mb-2"><a class="hover:text-orange" href="{{ route('cars.show', $car) }}">{{ $car->name }}</a></div>
         <p class="text-grey-darker text-base">

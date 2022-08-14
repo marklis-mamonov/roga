@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('cars', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->unsignedBigInteger('image_id')->nullable();
+        Schema::create('car_image', function (Blueprint $table) {
+            $table->unsignedBigInteger('image_id')->unique();
             $table->foreign('image_id')->references('id')->on('images');
+            $table->unsignedBigInteger('car_id');
+            $table->foreign('car_id')->references('id')->on('cars');
         });
     }
 

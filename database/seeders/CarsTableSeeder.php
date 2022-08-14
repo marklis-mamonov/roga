@@ -36,6 +36,7 @@ class CarsTableSeeder extends Seeder
                 'car_body_id' => $carBodies->random(),
                 'car_engine_id' => $carEngines->random(),
                 'category_id' => $categories->random(),
+                'image_id' => $i + 11,
             ])->create();
         }
     }

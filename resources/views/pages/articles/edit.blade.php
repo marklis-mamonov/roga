@@ -12,7 +12,7 @@
             <x-messages.success :message="Session::get('message')"/>
         @endif
 
-        <form method="POST" action="{{ route('articles.update', $article) }}">
+        <form method="POST" enctype="multipart/form-data" action="{{ route('articles.update', $article) }}">
             @method('PATCH')
             @csrf
             @include('forms.article')

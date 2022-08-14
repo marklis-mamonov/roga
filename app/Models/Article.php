@@ -22,4 +22,9 @@ class Article extends Model implements HasTags
     {
         return $this->morphToMany('App\Models\Tag', 'taggable', 'taggables');
     }
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
 }

@@ -21,6 +21,11 @@
             </x-input.group>
         </div>
         <div class="block">
+            <x-input.group for="image" title="Загрузить изображение" :errors="$errors">
+                <input name="image" type="file">
+            </x-input.group>
+        </div>
+        <div class="block">
             <x-input.checkbox name="is_published" title="Опубликовать новость"/>
         </div>
         <div class="block">

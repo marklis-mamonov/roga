@@ -17,7 +17,13 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        $articles = Article::factory()->count(10)->create();
+        //$articles = Article::factory()->count(10)->create();
+
+        for ($i = 0; $i < 10; $i++) {
+            $article = Article::factory()->state([
+                'image_id' => $i + 1,
+            ])->create();
+        }
         
         $publishedArticleCount = Article::get()->whereNotNull('published_at')->count();
         while ($publishedArticleCount<5) {
