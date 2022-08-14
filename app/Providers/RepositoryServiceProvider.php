@@ -8,11 +8,13 @@ use App\Repositories\Contracts\CarsRepositoryContract;
 use App\Repositories\Contracts\TagsRepositoryContract;
 use App\Repositories\Contracts\CategoriesRepositoryContract;
 use App\Repositories\Contracts\ImagesRepositoryContract;
+use App\Repositories\Contracts\BannersRepositoryContract;
 use App\Repositories\ArticlesRepository;
 use App\Repositories\CarsRepository;
 use App\Repositories\TagsRepository;
 use App\Repositories\CategoriesRepository;
 use App\Repositories\ImagesRepository;
+use App\Repositories\BannersRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(TagsRepositoryContract::class, TagsRepository::class);
         $this->app->singleton(CategoriesRepositoryContract::class, CategoriesRepository::class);
         $this->app->singleton(ImagesRepositoryContract::class, ImagesRepository::class);
+        $this->app->singleton(BannersRepositoryContract::class, BannersRepository::class);
     }
 
     /**

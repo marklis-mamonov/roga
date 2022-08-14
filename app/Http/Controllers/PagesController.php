@@ -8,24 +8,28 @@ use App\Models\Car;
 use Illuminate\Support\Str;
 use App\Repositories\Contracts\ArticlesRepositoryContract;
 use App\Repositories\Contracts\CarsRepositoryContract;
+use App\Repositories\Contracts\BannersRepositoryContract;
 
 class PagesController extends Controller
 {
 
     protected $articlesRepository;
     protected $carsRepository;
+    protected $bannersRepository;
 
-    public function __construct(ArticlesRepositoryContract $articlesRepository, CarsRepositoryContract $carsRepository)
+    public function __construct(ArticlesRepositoryContract $articlesRepository, CarsRepositoryContract $carsRepository, BannersRepositoryContract $bannersRepository)
     {
         $this->articlesRepository = $articlesRepository;
         $this->carsRepository = $carsRepository;
+        $this->bannersRepository = $bannersRepository;
     }
 
     public function homepage()
     {
         $articles = $this->articlesRepository->getNewArticles();
         $weekCars = $this->carsRepository->getWeekCars();
-        return view('pages.homepage', compact('articles', 'weekCars'));
+        $banners = $this->bannersRepository->getThreeRandomBanners();
+        return view('pages.homepage', compact('articles', 'weekCars', 'banners'));
     }
 
     public function about_us()
