@@ -10,11 +10,11 @@ Interface CarsRepositoryContract
 {
     public function getAll(): Collection;
     
-    public function getAllWithPaginate(): LengthAwarePaginator;
+    public function getAllWithPaginate($perPage, $page): LengthAwarePaginator;
     
-    public function getAllFromCategoryWithPaginate($category, $childrenCategories): LengthAwarePaginator;
+    public function getAllFromCategoryWithPaginate($category, $childrenCategories, $perPage, $page): LengthAwarePaginator;
 
-    public function getWeekCars(): Collection;
+    public function getWeekCars(int $count): Collection;
 
     public function getCarsWithRelations(): Collection;
 }

@@ -26,8 +26,8 @@ class PagesController extends Controller
 
     public function homepage()
     {
-        $articles = $this->articlesRepository->getNewArticles();
-        $weekCars = $this->carsRepository->getWeekCars();
+        $articles = $this->articlesRepository->getNewArticles(3);
+        $weekCars = $this->carsRepository->getWeekCars(4);
         $banners = $this->bannersRepository->getThreeRandomBanners();
         return view('pages.homepage', compact('articles', 'weekCars', 'banners'));
     }

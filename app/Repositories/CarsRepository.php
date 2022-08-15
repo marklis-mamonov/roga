@@ -22,24 +22,24 @@ class CarsRepository implements CarsRepositoryContract
         return $this->model::get();
     }
 
-    public function getAllWithPaginate(): LengthAwarePaginator
+    public function getAllWithPaginate($perPage, $page): LengthAwarePaginator
     {
-        return $this->model::paginate(16);
+        return $this->model::paginate($perPage, page: $page);
     }
 
-    public function getAllFromCategoryWithPaginate($category, $childrenCategories): LengthAwarePaginator
+    public function getAllFromCategoryWithPaginate($category, $childrenCategories, $perPage, $page): LengthAwarePaginator
     {
         $categoriesId[] = $category->id;
         foreach ($childrenCategories as $childrenCategory) {
             $categoriesId[] = $childrenCategory->id;
         }
-        $cars = $this->model::whereIn('category_id', $categoriesId)->paginate(16);
+        $cars = $this->model::whereIn('category_id', $categoriesId)->paginate($perPage, page: $page);
         return $cars;
     }
 
-    public function getWeekCars(): Collection
+    public function getWeekCars(int $count): Collection
     {
-        return $this->model::inRandomOrder()->limit(4)->get();
+        return $this->model::inRandomOrder()->limit($count)->get();
     }
 
     public function getCarsWithRelations(): Collection

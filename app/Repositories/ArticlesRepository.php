@@ -21,9 +21,9 @@ class ArticlesRepository implements ArticlesRepositoryContract
         return $this->model::latest('published_at')->whereNotNull('published_at')->get();
     }
 
-    public function getAllPublishedWithPaginate(): LengthAwarePaginator
+    public function getAllPublishedWithPaginate($perPage, $page): LengthAwarePaginator
     {
-        return $this->model::latest('published_at')->whereNotNull('published_at')->paginate(5);
+        return $this->model::latest('published_at')->whereNotNull('published_at')->paginate($perPage, page: $page);
     }
 
     public function create($data): Article
@@ -41,8 +41,8 @@ class ArticlesRepository implements ArticlesRepositoryContract
         return $article->delete();
     }
 
-    public function getNewArticles(): Collection
+    public function getNewArticles(int $count): Collection
     {
-        return $this->model::latest('published_at')->whereNotNull('published_at')->limit(3)->get();
+        return $this->model::latest('published_at')->whereNotNull('published_at')->limit($count)->get();
     }
 }

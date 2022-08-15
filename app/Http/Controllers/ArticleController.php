@@ -28,7 +28,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = $this->articlesRepository->getAllPublishedWithPaginate();
+        $perPage = 5;
+        $page = $_GET['page'] ?? 1;
+        $articles = $this->articlesRepository->getAllPublishedWithPaginate($perPage, $page);
         return view('pages.articles.index', compact('articles'));
     }
 

@@ -26,8 +26,10 @@ class CarController extends Controller
      */
     public function index(Category $category)
     {
+        $perPage = 16;
+        $page = $_GET['page'] ?? 1;
         $childrenCategories = $this->categoriesRepository->getChildrenCategories($category->id);
-        $cars = $this->carsRepository->getAllFromCategoryWithPaginate($category, $childrenCategories);
+        $cars = $this->carsRepository->getAllFromCategoryWithPaginate($category, $childrenCategories, $perPage, $page);
         return view('pages.cars.index', compact('cars', 'category'));
     }
 

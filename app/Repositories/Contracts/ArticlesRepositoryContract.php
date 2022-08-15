@@ -10,7 +10,7 @@ Interface ArticlesRepositoryContract
 {
     public function getAllPublished(): Collection;
 
-    public function getAllPublishedWithPaginate(): LengthAwarePaginator;
+    public function getAllPublishedWithPaginate($perPage, $page): LengthAwarePaginator;
 
     public function create($data): Article;
 
@@ -18,5 +18,5 @@ Interface ArticlesRepositoryContract
     
     public function delete($article): bool;
 
-    public function getNewArticles(): Collection;
+    public function getNewArticles(int $count): Collection;
 }
