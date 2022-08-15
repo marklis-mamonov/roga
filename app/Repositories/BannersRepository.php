@@ -15,9 +15,9 @@ class BannersRepository implements BannersRepositoryContract
         $this->model = $model;
     }
 
-    public function getThreeRandomBanners(): Collection
+    public function getRandomBanners($count): Collection
     {
-        return $this->model::inRandomOrder()->limit(3)->get();
+        return $this->model::inRandomOrder()->limit($count)->get();
     }
     
 }

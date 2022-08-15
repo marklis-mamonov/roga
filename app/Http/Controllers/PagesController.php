@@ -28,7 +28,7 @@ class PagesController extends Controller
     {
         $articles = $this->articlesRepository->getNewArticles(3);
         $weekCars = $this->carsRepository->getWeekCars(4);
-        $banners = $this->bannersRepository->getThreeRandomBanners();
+        $banners = $this->bannersRepository->getRandomBanners(3);
         return view('pages.homepage', compact('articles', 'weekCars', 'banners'));
     }
 

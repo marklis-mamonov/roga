@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Banner extends Model
 {
     use HasFactory;
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class);
+    }
 }

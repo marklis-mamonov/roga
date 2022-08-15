@@ -7,5 +7,5 @@ use App\Models\Banner;
 
 Interface BannersRepositoryContract
 {
-    public function getThreeRandomBanners(): Collection;
+    public function getRandomBanners(int $count): Collection;
 }

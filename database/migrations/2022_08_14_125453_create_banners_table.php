@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('link')->nullable();
-            $table->string('image_path');
+            $table->unsignedBigInteger('image_id');
+            $table->foreign('image_id')->references('id')->on('images');
             $table->timestamps();
         });
     }

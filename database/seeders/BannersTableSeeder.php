@@ -15,10 +15,9 @@ class BannersTableSeeder extends Seeder
      */
     public function run()
     {
-        $image_paths = ['images/test_banner_1.jpg', 'images/test_banner_2.jpg', 'images/test_banner_3.jpg'];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 41; $i <= 43; $i++) {
             $banner = Banner::factory()->state([
-                'image_path' => $image_paths[$i],
+                'image_id' => $i,
             ])->create();
         }
     }
