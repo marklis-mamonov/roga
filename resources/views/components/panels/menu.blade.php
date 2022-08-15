@@ -1,13 +1,3 @@
-@php
-$categoryRepository = app(\App\Repositories\Contracts\CategoriesRepositoryContract::class);
-$categories = $categoryRepository->getAllCategories();
-if (Route::currentRouteName() == "cars.index") {
-    $activeCategories = $categoryRepository->getActiveCategories($_SERVER['REQUEST_URI']);
-} else {
-    $activeCategories =collect([]);
-}
-@endphp
-
 <nav class="order-1">
     <ul class="block lg:flex">
         @foreach ($categories as $category)

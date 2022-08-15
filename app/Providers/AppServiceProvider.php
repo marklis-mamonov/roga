@@ -11,6 +11,9 @@ use App\Services\Contracts\ImageServiceContract;
 use App\Services\TagsSynchroniser;
 use App\Services\ArticleService;
 use App\Services\ImageService;
+use App\Repositories\Contracts\CategoriesRepositoryContract;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ImageServiceContract::class, ImageService::class);
     }
 
+    public function categories()
+    {
+    }
+    
+
     /**
      * Bootstrap any application services.
      *
@@ -38,5 +46,16 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Paginator::defaultView('pagination::custom');
+
+        $categoryRepository = app(CategoriesRepositoryContract::class);
+        $categories = $categoryRepository->getAllCategories();
+        View::share('categories', $categories);
+
+        if (Route::currentRouteName() == "cars.index") {
+            $activeCategories = $categoryRepository->getActiveCategories($_SERVER['REQUEST_URI']);
+        } else {
+            $activeCategories = collect([]);
+        }
+        View::share('activeCategories', $activeCategories);
     }
 }
