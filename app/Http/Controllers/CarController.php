@@ -39,8 +39,9 @@ class CarController extends Controller
      * @param  Car $car
      * @return \Illuminate\Http\Response
      */
-    public function show(Car $car)
+    public function show($id)
     {
+        $car = $this->carsRepository->getCar($id);
         return view('pages.cars.show', compact('car'));
     }
 }

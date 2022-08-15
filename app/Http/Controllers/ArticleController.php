@@ -71,8 +71,9 @@ class ArticleController extends Controller
      * @param  Article $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show($slug)
     {
+        $article = $this->articlesRepository->getArticle($slug);
         return view('pages.articles.show', compact('article'));
     }
 

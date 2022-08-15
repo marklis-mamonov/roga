@@ -11,6 +11,22 @@ class Tag extends Model
 
     protected $guarded = [];
 
+    protected static function boot() {
+        parent::boot();
+
+        static::created(function () {
+            Cache::tags('tags')->flush();
+        });
+
+        static::updated(function () {
+            Cache::tags('tags')->flush();
+        });
+
+        static::deleted(function () {
+            Cache::tags('tags')->flush();
+        });
+    }
+
     public function articles()
     {
         return $this->morphedByMany(Article::class, 'taggable');

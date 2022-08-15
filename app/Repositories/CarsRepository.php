@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Car;
 use App\Models\Category;
+use Illuminate\Support\Facades\Cache;
 
 class CarsRepository implements CarsRepositoryContract
 {
@@ -33,18 +34,27 @@ class CarsRepository implements CarsRepositoryContract
         foreach ($childrenCategories as $childrenCategory) {
             $categoriesId[] = $childrenCategory->id;
         }
-        $cars = $this->model::whereIn('category_id', $categoriesId)->paginate($perPage, page: $page);
-        return $cars;
+        return $cars = Cache::tags(['cars', 'images'])->remember('catalog|' . $category->id, 3600, function () use ($categoriesId, $perPage, $page) {
+            return $this->model::whereIn('category_id', $categoriesId)->with('image')->paginate($perPage, page: $page);
+        });
     }
 
     public function getWeekCars(int $count): Collection
     {
-        return $this->model::inRandomOrder()->limit($count)->get();
+        return Cache::tags(['cars', 'images'])->remember('weekCars', 3600, function() use ($count) {
+            return $this->model::inRandomOrder()->with('image')->limit($count)->get();
+        });
     }
 
     public function getCarsWithRelations(): Collection
     {
         return $this->model::with('CarBody','CarClass','CarEngine')->get();
+    }
+
+    public function getCar($id) {
+        return Cache::tags(['cars', 'images'])->remember('car' . $id, 3600, function() use ($id) {
+            return $this->model::with('carBody', 'carClass', 'carEngine', 'image', 'images')->find($id);
+        });
     }
 
 }

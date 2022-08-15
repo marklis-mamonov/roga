@@ -18,6 +18,22 @@ class Article extends Model implements HasTags
 
     protected $guarded = [];
 
+    protected static function boot() {
+        parent::boot();
+
+        static::created(function () {
+            Cache::tags('articles')->flush();
+        });
+
+        static::updated(function () {
+            Cache::tags('articles')->flush();
+        });
+
+        static::deleted(function () {
+            Cache::tags('articles')->flush();
+        });
+    }
+
     public function tags(): MorphToMany
     {
         return $this->morphToMany('App\Models\Tag', 'taggable', 'taggables');

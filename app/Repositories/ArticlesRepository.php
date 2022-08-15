@@ -6,6 +6,7 @@ use App\Repositories\Contracts\ArticlesRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Models\Article;
+use Illuminate\Support\Facades\Cache;
 
 class ArticlesRepository implements ArticlesRepositoryContract
 {
@@ -23,7 +24,9 @@ class ArticlesRepository implements ArticlesRepositoryContract
 
     public function getAllPublishedWithPaginate($perPage, $page): LengthAwarePaginator
     {
-        return $this->model::latest('published_at')->whereNotNull('published_at')->paginate($perPage, page: $page);
+        return $cars = Cache::tags(['articles', 'tags', 'images'])->remember('articles' . $page, 3600, function () use ($perPage, $page) {
+            return $this->model::latest('published_at')->with('image', 'tags')->whereNotNull('published_at')->paginate($perPage, page: $page);
+        });
     }
 
     public function create($data): Article
@@ -43,6 +46,14 @@ class ArticlesRepository implements ArticlesRepositoryContract
 
     public function getNewArticles(int $count): Collection
     {
-        return $this->model::latest('published_at')->whereNotNull('published_at')->limit($count)->get();
+        return Cache::tags(['articles', 'tags', 'images'])->remember('newArticles', 3600, function() use ($count) {
+            return $this->model::latest('published_at')->with('image', 'tags')->whereNotNull('published_at')->limit($count)->get();
+        });
+    }
+
+    public function getArticle($slug) {
+        return Cache::tags(['articles', 'tags', 'images'])->remember('article' . $slug, 3600, function() use ($slug) {
+            return $this->model::with('image', 'tags')->get()->where('slug', $slug)->first();
+        });
     }
 }

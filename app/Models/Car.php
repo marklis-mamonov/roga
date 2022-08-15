@@ -15,6 +15,22 @@ class Car extends Model
     }
 
     protected $guarded = [];
+
+    protected static function boot() {
+        parent::boot();
+
+        static::created(function () {
+            Cache::tags('cars')->flush();
+        });
+
+        static::updated(function () {
+            Cache::tags('cars')->flush();
+        });
+
+        static::deleted(function () {
+            Cache::tags('cars')->flush();
+        });
+    }
     
     public function carClass()
     {

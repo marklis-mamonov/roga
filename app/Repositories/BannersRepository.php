@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repositories\Contracts\BannersRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Banner;
+use Illuminate\Support\Facades\Cache;
 
 class BannersRepository implements BannersRepositoryContract
 {
@@ -17,7 +18,9 @@ class BannersRepository implements BannersRepositoryContract
 
     public function getRandomBanners($count): Collection
     {
-        return $this->model::inRandomOrder()->limit($count)->get();
+        return Cache::tags(['banners', 'images'])->remember('banners', 3600, function() use ($count) {
+            return $this->model::inRandomOrder()->with('image')->limit($count)->get();
+        });
     }
     
 }
