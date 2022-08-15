@@ -28,13 +28,15 @@ class TagsRequest extends FormRequest
         ];
     }
 
-    public function tagsCollection(string $requestTags)
+    public function tagsCollection($requestTags)
     {
-        $tags = explode(",", $requestTags);
-        $tags = collect($tags);
-        $tags = $tags->map(function ($item, $key) {
-            return trim($item);
-        });
-        return $tags;
+        if ($requestTags) {
+            $tags = explode(",", $requestTags);
+            $tags = collect($tags);
+            $tags = $tags->map(function ($item, $key) {
+                return trim($item);
+            });
+            return $tags;
+        }
     }
 }

@@ -17,15 +17,19 @@ class ImageService implements ImageServiceContract
         $this->imagesRepository = $imagesRepository;
     }
 
-    public function uploadImage($file)
+    public function uploadImage($file, $fileExists = "false")
     {
-        if ($file) {
-            $path = $file->store('images', ['disk' => 'public']);
-            $image = $this->imagesRepository->create($path);
-            $imageId = $image->id;
+        if (! (($fileExists) && ($file === null))) {
+            if ($file) {
+                $path = $file->store('images', ['disk' => 'public']);
+                $image = $this->imagesRepository->create($path);
+                $imageId = $image->id;
+            } else {
+                $imageId = null;
+            }
         } else {
-            $imageId = null;
-        }
+            $imageId = $article->image_id;
+        }       
 
         return $imageId;
     }

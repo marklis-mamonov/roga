@@ -8,8 +8,6 @@ use App\Services\Contracts\ArticleServiceContract;
 use App\Services\Contracts\ImageServiceContract;
 use App\Repositories\Contracts\ArticlesRepositoryContract;
 use App\Repositories\Contracts\ImagesRepositoryContract;
-use App\Http\Requests\ArticleRequest;
-use App\Http\Requests\TagsRequest;
 use App\Models\Article;
 use Illuminate\Support\Str;
 
@@ -27,44 +25,32 @@ class ArticleService implements ArticleServiceContract
         $this->tagsSynchroniser = $tagsSynchroniser;
     }
 
-    private function generateUploadData($request, $imageId): array
+    private function generateUploadData($uploadCollection, $published_at, $imageId): array
     {
-        $published_at = $request->getPublishedAt($request->is_published);
-
         return $data = [
-            'slug' => Str::slug($request->title),
-            'title' => $request->title,
-            'description' => $request->description,
-            'body' => $request->body,
+            'slug' => Str::slug($uploadCollection->get('title')),
+            'title' => $uploadCollection->get('title'),
+            'description' => $uploadCollection->get('description'),
+            'body' => $uploadCollection->get('body'),
             'published_at' => $published_at,
             'image_id' => $imageId
         ];
     }
 
-    public function create(ArticleRequest $request, TagsRequest $tagsRequest)
+    public function create(Collection $uploadCollection, $tags, $published_at, $imageId)
     {
-        $imageId = $this->imageService->uploadImage($request->file('image'));
-        $data = $this->generateUploadData($request, $imageId);
+        $data = $this->generateUploadData($uploadCollection, $published_at, $imageId);
         $article = $this->articlesRepository->create($data);
-
-        if ($request->tags) {
-            $tags = $tagsRequest->tagsCollection($request->tags);
+        if ($tags) {
             $this->tagsSynchroniser->sync($tags, $article);
         }
     }
 
-    public function update(ArticleRequest $request, TagsRequest $tagsRequest, Article $article)
+    public function update(Collection $uploadCollection, Article $article, $tags, $published_at, $imageId)
     {
-        if (! (($article->image_id) && ($request->file('image') === null))) {
-            $imageId = $this->imageService->uploadImage($request->file('image'));
-        } else {
-            $imageId = $article->image_id;
-        }
-        $data = $this->generateUploadData($request, $imageId);
-        $article = $this->articlesRepository->update($article, $data);
-
-        if ($request->tags) {
-            $tags = $tagsRequest->tagsCollection($request->tags);
+        $data = $this->generateUploadData($uploadCollection, $published_at, $imageId);
+        $this->articlesRepository->update($article, $data);
+        if ($tags) {
             $this->tagsSynchroniser->sync($tags, $article);
         }
     }
