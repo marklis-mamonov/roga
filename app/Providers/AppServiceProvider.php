@@ -46,11 +46,13 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::defaultView('pagination::custom');
 
-        $categoryRepository = app(CategoriesRepositoryContract::class);
-        $categories = $categoryRepository->getAllCategories();
-        View::share('categories', $categories);
+        View::composer('components.panels.menu', function ($view) {
+            $categoryRepository = app(CategoriesRepositoryContract::class);
+            $categories = $categoryRepository->getAllCategories();
+            $view->with('categories', $categories);
 
-        $activeCategories = $categoryRepository->getActiveCategories($_SERVER['REQUEST_URI']);
-        View::share('activeCategories', $activeCategories);
+            $activeCategories = $categoryRepository->getActiveCategories($_SERVER['REQUEST_URI']);
+            $view->with('activeCategories', $activeCategories);
+        });
     }
 }
