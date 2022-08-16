@@ -12,4 +12,16 @@
     @if ($error == "validation.max.string")
         <span class="text-xs italic text-red-600">Слишком длинное значение</span>
     @endif
+    @if ($error == "validation.min.string")
+        <span class="text-xs italic text-red-600">Слишком короткое значение</span>
+    @endif
+    @if ($error == "validation.confirmed")
+        <span class="text-xs italic text-red-600">Не подтвержден</span>
+    @endif
+    @if ($error == "validation.email")
+        <span class="text-xs italic text-red-600">Значение электронной почты некорректно</span>
+    @endif
+    @if ($error == "auth.failed")
+        <span class="text-xs italic text-red-600">Неверный логин или пароль</span>
+    @endif
 @endforeach
