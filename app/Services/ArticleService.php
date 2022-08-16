@@ -10,6 +10,7 @@ use App\Repositories\Contracts\ArticlesRepositoryContract;
 use App\Repositories\Contracts\ImagesRepositoryContract;
 use App\Models\Article;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class ArticleService implements ArticleServiceContract
 {
@@ -40,18 +41,30 @@ class ArticleService implements ArticleServiceContract
     public function create(Collection $uploadCollection, $tags, $published_at, $imageId)
     {
         $data = $this->generateUploadData($uploadCollection, $published_at, $imageId);
-        $article = $this->articlesRepository->create($data);
-        if ($tags) {
-            $this->tagsSynchroniser->sync($tags, $article);
+        try {
+            DB::beginTransaction();
+            $article = $this->articlesRepository->create($data);
+            if ($tags) {
+                $this->tagsSynchroniser->sync($tags, $article);
+            }
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollback();
         }
     }
 
     public function update(Collection $uploadCollection, Article $article, $tags, $published_at, $imageId)
     {
         $data = $this->generateUploadData($uploadCollection, $published_at, $imageId);
-        $this->articlesRepository->update($article, $data);
-        if ($tags) {
-            $this->tagsSynchroniser->sync($tags, $article);
+        try {
+            DB::beginTransaction();
+            $this->articlesRepository->update($article, $data);
+            if ($tags) {
+                $this->tagsSynchroniser->sync($tags, $article);
+            }
+            DB::commit();
+        } catch (Throwable $e) {
+            DB::rollback();
         }
     }
 }
