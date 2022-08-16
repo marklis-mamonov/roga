@@ -18,7 +18,7 @@ class BannersRepository implements BannersRepositoryContract
 
     public function getRandomBanners($count): Collection
     {
-        return Cache::tags(['banners', 'images'])->remember('banners', 3600, function() use ($count) {
+        return Cache::tags(['banners', 'images'])->remember('banners|' . $count, 3600, function() use ($count) {
             return $this->model::inRandomOrder()->with('image')->limit($count)->get();
         });
     }

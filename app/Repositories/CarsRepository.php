@@ -41,7 +41,7 @@ class CarsRepository implements CarsRepositoryContract
 
     public function getWeekCars(int $count): Collection
     {
-        return Cache::tags(['cars', 'images'])->remember('weekCars', 3600, function() use ($count) {
+        return Cache::tags(['cars', 'images'])->remember('weekCars|' . $count, 3600, function() use ($count) {
             return $this->model::inRandomOrder()->with('image')->limit($count)->get();
         });
     }

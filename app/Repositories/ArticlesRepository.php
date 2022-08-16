@@ -24,7 +24,7 @@ class ArticlesRepository implements ArticlesRepositoryContract
 
     public function getAllPublishedWithPaginate($perPage, $page): LengthAwarePaginator
     {
-        return $cars = Cache::tags(['articles', 'tags', 'images'])->remember('articles' . $page, 3600, function () use ($perPage, $page) {
+        return $cars = Cache::tags(['articles', 'tags', 'images'])->remember('articles|'. $perPage. '|' . $page, 3600, function () use ($perPage, $page) {
             return $this->model::latest('published_at')->with('image', 'tags')->whereNotNull('published_at')->paginate($perPage, page: $page);
         });
     }
@@ -46,7 +46,7 @@ class ArticlesRepository implements ArticlesRepositoryContract
 
     public function getNewArticles(int $count): Collection
     {
-        return Cache::tags(['articles', 'tags', 'images'])->remember('newArticles', 3600, function() use ($count) {
+        return Cache::tags(['articles', 'tags', 'images'])->remember('newArticles|' . $count, 3600, function() use ($count) {
             return $this->model::latest('published_at')->with('image', 'tags')->whereNotNull('published_at')->limit($count)->get();
         });
     }
