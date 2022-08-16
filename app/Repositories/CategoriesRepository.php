@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repositories\Contracts\CategoriesRepositoryContract;
 use Illuminate\Support\Collection;
 use App\Models\Category;
+use Illuminate\Support\Facades\Route;
 
 class CategoriesRepository implements CategoriesRepositoryContract
 {
@@ -38,12 +39,16 @@ class CategoriesRepository implements CategoriesRepositoryContract
     {
         $activeCategorySlug = str_replace("/catalog/", "", $uri);
         $activeCategory = $this->model::get()->where('slug', $activeCategorySlug)->first();
-        if ($activeCategory->parent_id) {
-            $activeParentCategory = $this->model::get()->where('id', $activeCategory->parent_id)->first();
-            $activeParentCategorySlug = $activeParentCategory->slug;
+        if ($activeCategory) {
+            if ($activeCategory->parent_id) {
+                $activeParentCategory = $this->model::get()->where('id', $activeCategory->parent_id)->first();
+                $activeParentCategorySlug = $activeParentCategory->slug;
+            } else {
+                $activeParentCategorySlug = null;
+            }
+            return collect([$activeCategorySlug, $activeParentCategorySlug]);
         } else {
-            $activeParentCategorySlug = null;
+            return collect([]); 
         }
-        return collect([$activeCategorySlug, $activeParentCategorySlug]);
     }
 }
