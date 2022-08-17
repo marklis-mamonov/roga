@@ -27,7 +27,7 @@ Route::get('/for_clients', [PagesController::class, 'for_clients'])->name('for_c
 Route::get('/catalog/{category}', [CarController::class, 'index'])->name('cars.index');
 Route::get('/products/{car}', [CarController::class, 'show'])->name('cars.show');
 
-Route::resource('articles', ArticleController::class);
+Route::resource('articles', ArticleController::class)->names('articles');
 
 Route::get('/account', [AccountController::class, 'index'])->name('account');
 
