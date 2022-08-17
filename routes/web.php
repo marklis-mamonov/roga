@@ -32,5 +32,3 @@ Route::resource('articles', ArticleController::class);
 Route::get('/account', [AccountController::class, 'index'])->name('account');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
