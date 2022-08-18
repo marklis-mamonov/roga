@@ -61,7 +61,7 @@ class ArticleController extends Controller
         $tags = $tagsRequest->tagsCollection($request->tags);
         $published_at = $request->getPublishedAt($request->is_published);
         $imageId = $this->imageService->uploadImage($request->file('image'));
-        $this->articleService->create($uploadCollection, $tags, $published_at, $imageId);
+        $article = $this->articleService->create($uploadCollection, $tags, $published_at, $imageId);
         return redirect(route('articles.create'))->with('message', 'Новость успешно добавлена');
     }
 

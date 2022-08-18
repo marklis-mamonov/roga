@@ -96,6 +96,8 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'toAdmin' => 'admin@example.com',
+    
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings

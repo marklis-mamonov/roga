@@ -7,10 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Interfaces\HasTags;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Cache;
+use App\Events\ArticleCreated;
+use App\Events\ArticleUpdated;
+use App\Events\ArticleDeleted;
 
 class Article extends Model implements HasTags
 {
     use HasFactory;
+
+    protected $dispatchesEvents = [
+        'created' => ArticleCreated::class,
+        'updated' => ArticleUpdated::class,
+        'deleted' => ArticleDeleted::class,
+    ];
     
     public function getRouteKeyName()
     {
