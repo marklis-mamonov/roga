@@ -17,4 +17,6 @@ Interface CarsRepositoryContract
     public function getWeekCars(int $count): Collection;
 
     public function getCarsWithRelations(): Collection;
+
+    public function getCarsCount();
 }

@@ -51,10 +51,16 @@ class CarsRepository implements CarsRepositoryContract
         return $this->model::with('CarBody','CarClass','CarEngine')->get();
     }
 
-    public function getCar($id) {
+    public function getCar($id)
+    {
         return Cache::tags(['cars', 'images'])->remember('car' . $id, 3600, function() use ($id) {
             return $this->model::with('carBody', 'carClass', 'carEngine', 'image', 'images')->find($id);
         });
+    }
+
+    public function getCarsCount()
+    {
+        return $this->model::get()->count();
     }
 
 }

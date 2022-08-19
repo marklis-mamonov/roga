@@ -19,4 +19,12 @@ Interface ArticlesRepositoryContract
     public function delete($article): bool;
 
     public function getNewArticles(int $count): Collection;
+
+    public function getArticlesCount();
+
+    public function getMostLongArticle();
+
+    public function getMostShortArticle();
+
+    public function getMostTaggedArticle();
 }

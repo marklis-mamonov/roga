@@ -10,4 +10,8 @@ Interface TagsRepositoryContract
     public function createOrGet($name): Tag;
 
     public function attach($taggableModel, $tag);
+
+    public function getMostPopularTag();
+
+    public function getAvgArticles();
 }

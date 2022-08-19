@@ -56,4 +56,24 @@ class ArticlesRepository implements ArticlesRepositoryContract
             return $this->model::with('image', 'tags')->get()->where('slug', $slug)->first();
         });
     }
+
+    public function getArticlesCount()
+    {
+        return $this->model::get()->count();
+    }
+
+    public function getMostLongArticle()
+    {
+        return $this->model::orderByRaw('LENGTH(body) DESC')->first();
+    }
+
+    public function getMostShortArticle()
+    {
+        return $this->model::orderByRaw('LENGTH(body)')->first();
+    }
+
+    public function getMostTaggedArticle()
+    {
+        return $tags = $this->model::withCount('tags')->orderBy('tags_count', 'DESC')->first();
+    }
 }

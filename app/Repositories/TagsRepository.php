@@ -24,4 +24,14 @@ class TagsRepository implements TagsRepositoryContract
     {
         $taggableModel->tags()->attach($tag);
     }
+
+    public function getMostPopularTag()
+    {
+        return $tags = $this->model::withCount('articles')->orderBy('articles_count', 'DESC')->first();
+    }
+
+    public function getAvgArticles()
+    {
+        return $tags = $this->model::has('articles')->withCount('articles')->get()->avg('articles_count');
+    }
 }
