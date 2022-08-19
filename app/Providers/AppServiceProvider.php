@@ -60,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('admin', function() {
             if (Auth::user())
             {
-                    return Auth::user()->role->name === "admin";
+                return Auth::user()->isAdmin();
             }
         });
     }
