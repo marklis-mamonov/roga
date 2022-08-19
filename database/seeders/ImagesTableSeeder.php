@@ -16,12 +16,12 @@ class ImagesTableSeeder extends Seeder
     public function run()
     {
         $imagesCreate = Image::factory()->count(40)->create();
-    }
 
-    $image_paths = ['images/test_banner_1.jpg', 'images/test_banner_2.jpg', 'images/test_banner_3.jpg'];
-    for ($i = 0; $i < 3; $i++) {
-        $image = Image::factory()->state([
-            'path' => $image_paths[$i],
-        ])->create();
+        $imagePaths = ['images/test_banner_1.jpg', 'images/test_banner_2.jpg', 'images/test_banner_3.jpg'];
+        for ($i = 0; $i < 3; $i++) {
+            $image = Image::factory()->state([
+                'path' => $imagePaths[$i],
+            ])->create();
+        }
     }
 }

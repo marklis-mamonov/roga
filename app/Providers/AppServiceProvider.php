@@ -13,6 +13,8 @@ use App\Services\ArticleService;
 use App\Services\ImageService;
 use App\Repositories\Contracts\CategoriesRepositoryContract;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -53,6 +55,13 @@ class AppServiceProvider extends ServiceProvider
 
             $activeCategories = $categoryRepository->getActiveCategories($_SERVER['REQUEST_URI']);
             $view->with('activeCategories', $activeCategories);
+        });
+
+        Blade::if('admin', function() {
+            if (Auth::user())
+            {
+                    return Auth::user()->role->name === "admin";
+            }
         });
     }
 }

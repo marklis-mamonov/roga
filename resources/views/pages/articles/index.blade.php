@@ -11,10 +11,12 @@
                 <x-messages.success :message="Session::get('message')"/>
             @endif
 
+            @admin
             <a href="{{ route('articles.create') }}">
                 <x-buttons.orange value="Добавить новость"/>
             </a>
-
+            @endadmin
+            
             @foreach ($articles as $article)
                 <x-panels.articles.item :article="$article"/>
 

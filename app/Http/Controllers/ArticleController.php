@@ -10,6 +10,7 @@ use App\Http\Requests\TagsRequest;
 use App\Services\Contracts\ArticleServiceContract;
 use App\Services\Contracts\ImageServiceContract;
 use App\Repositories\Contracts\ArticlesRepositoryContract;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -44,6 +45,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Article::class);
         $tags = "";
         return view('pages.articles.create', ['article' => new Article(), 'tags' => $tags]);
     }
@@ -56,6 +58,7 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request, TagsRequest $tagsRequest)
     {
+        $this->authorize('create', Article::class);
         $validated = $request->validated();
         $uploadCollection = $request->collect();
         $tags = $tagsRequest->tagsCollection($request->tags);
@@ -85,6 +88,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        $this->authorize('update', $article);
         $tags = implode(", ", $article->tags->pluck('name')->toArray());
         return view('pages.articles.edit', compact('article', 'tags'));
     }
@@ -98,8 +102,8 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, TagsRequest $tagsRequest, Article $article)
     {        
+        $this->authorize('update', $article);
         $validated = $request->validated();
-        
         $uploadCollection = $request->collect();
         $tags = $tagsRequest->tagsCollection($request->tags);
         $published_at = $request->getPublishedAt($request->is_published);
@@ -116,6 +120,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        $this->authorize('delete', $article);
         $this->articlesRepository->delete($article);
         return redirect(route('articles.index'))->with('message', 'Новость успешно удалена');
     }
