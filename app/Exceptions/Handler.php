@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -43,8 +46,40 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (ValidationException $e, $request) {
+        if ($request->wantsJson()) {
+            $json = [
+                'success' => false,
+                'error' => [
+                    'messages' => $e->errors(),
+                ]
+            ];
+            return response()->json($json, 400);
+        }
+        });
+
+        $this->renderable(function (UnauthorizedHttpException $e, $request) {
+            if ($request->wantsJson()) {
+                $json = [
+                    'success' => false,
+                    'error' => [
+                        'message' => "Не авторизован",
+                    ]
+                ];
+                return response()->json($json, 401);
+            }
+        });
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->wantsJson()) {
+                $json = [
+                    'success' => false,
+                    'error' => [
+                        'message' => "Запись не найдена",
+                    ]
+                ];
+                return response()->json($json, 404);
+            }
         });
     }
 }

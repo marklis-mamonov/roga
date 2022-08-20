@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Services\Contracts\TagsSynchroniserContract;
 use App\Services\Contracts\ArticleServiceContract;
 use App\Services\Contracts\ImageServiceContract;
+use App\Services\Contracts\CarServiceContract;
 use App\Services\TagsSynchroniser;
 use App\Services\ArticleService;
 use App\Services\ImageService;
+use App\Services\CarService;
 use App\Repositories\Contracts\CategoriesRepositoryContract;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TagsSynchroniserContract::class, TagsSynchroniser::class);
         $this->app->singleton(ArticleServiceContract::class, ArticleService::class);
         $this->app->singleton(ImageServiceContract::class, ImageService::class);
+        $this->app->singleton(CarServiceContract::class, CarService::class);
     }
 
     public function categories()

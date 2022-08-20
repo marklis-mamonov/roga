@@ -63,4 +63,19 @@ class CarsRepository implements CarsRepositoryContract
         return $this->model::get()->count();
     }
 
+    public function apiCreate($data): Car
+    {
+        return $this->model::create($data);
+    }
+
+    public function apiUpdate($id, $data)
+    {
+        return $this->model::findOrFail($id)->update($data);
+    }
+
+    public function apiDelete($id)
+    {
+        return $this->model::findOrFail($id)->delete();
+    }
+
 }
