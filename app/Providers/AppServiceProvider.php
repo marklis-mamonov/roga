@@ -9,11 +9,14 @@ use App\Services\Contracts\TagsSynchroniserContract;
 use App\Services\Contracts\ArticleServiceContract;
 use App\Services\Contracts\ImageServiceContract;
 use App\Services\Contracts\CarServiceContract;
+use App\Services\Contracts\SalonsClientServiceContract;
 use App\Services\TagsSynchroniser;
 use App\Services\ArticleService;
 use App\Services\ImageService;
 use App\Services\CarService;
+use App\Services\SalonsClientService;
 use App\Repositories\Contracts\CategoriesRepositoryContract;
+use App\Repositories\Contracts\SalonsRepositoryContract;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ArticleServiceContract::class, ArticleService::class);
         $this->app->singleton(ImageServiceContract::class, ImageService::class);
         $this->app->singleton(CarServiceContract::class, CarService::class);
+        $this->app->singleton(SalonsClientServiceContract::class, function () {
+            return new SalonsClientService(config('salons.user.username'), config('salons.user.password'), config('salons.url'));
+        });
     }
 
     public function categories()
@@ -58,6 +64,12 @@ class AppServiceProvider extends ServiceProvider
 
             $activeCategories = $categoryRepository->getActiveCategories($_SERVER['REQUEST_URI']);
             $view->with('activeCategories', $activeCategories);
+        });
+
+        View::composer('components.panels.salons', function ($view) {
+            $salonsRepository = app(SalonsRepositoryContract::class);
+            $salons = $salonsRepository->getRandomSalons(2);
+            $view->with('salons', $salons);
         });
 
         Blade::if('admin', function() {

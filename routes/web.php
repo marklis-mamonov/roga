@@ -5,6 +5,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\SalonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,6 @@ Route::get('/products/{car}', [CarController::class, 'show'])->name('cars.show')
 Route::resource('articles', ArticleController::class)->names('articles');
 
 Route::get('/account', [AccountController::class, 'index'])->name('account');
+Route::get('/salons', [SalonController::class, 'index'])->name('salons');
 
 Auth::routes();

@@ -56,3 +56,8 @@ Breadcrumbs::for('products/{car}', function (BreadcrumbTrail $trail, $car) {
     $trail->parent('catalog/{category}', $car->category);
     $trail->push($car->name, route('cars.show', $car));
 });
+
+Breadcrumbs::for('salons', function (BreadcrumbTrail $trail) {
+    $trail->parent('homepage');
+    $trail->push('Салоны', route('salons'));
+});
